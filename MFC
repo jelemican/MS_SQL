@@ -1,0 +1,2433 @@
+CREATE TABLE Employees( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_Employees PRIMARY KEY, 
+
+  Name nvarchar(50), 
+
+  Lastname nvarchar(50), 
+
+  Surname nvarchar(50), 
+
+  Birthday date, 
+
+  Position nvarchar(50)то 
+
+) 
+
+CREATE TABLE Clients( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_Clients PRIMARY KEY, 
+
+  Name nvarchar(50), 
+
+  Lastname nvarchar(50), 
+
+  Surname nvarchar(50), 
+
+  Birthday date, 
+
+  Position nvarchar(50) 
+
+) 
+
+CREATE TABLE Service( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_Service PRIMARY KEY, 
+
+  Name nvarchar(50), 
+
+  Provtime int NOT NULL, 
+
+) 
+
+CREATE TABLE Tax( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_Tax PRIMARY KEY, 
+
+  Name nvarchar(50), 
+
+  Payment float 
+
+) 
+
+CREATE TABLE Positions( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_Positions PRIMARY KEY, 
+
+  Name nvarchar(50) 
+
+) 
+
+CREATE TABLE EmployeesPositions( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_EmployeesPositions PRIMARY KEY, 
+
+  ID1 int, 
+
+  ID2 int, 
+
+  CONSTRAINT FK_ep_employeeID FOREIGN KEY(ID1) REFERENCES Employees(ID), 
+
+  CONSTRAINT FK_ep_positionID FOREIGN KEY(ID2) REFERENCES Positions(ID) 
+
+) 
+
+DROP TABLE EmployeesServices 
+
+CREATE TABLE EmployeesServices( 
+
+  ID nvarchar(50) CONSTRAINT PK_EmployeesServies PRIMARY KEY, 
+
+  ID1 int, 
+
+  ID2 int, 
+
+  CONSTRAINT FK_es_employeeID FOREIGN KEY(ID1) REFERENCES Employees(ID),   
+
+  CONSTRAINT FK_es_serviceID FOREIGN KEY(ID2) REFERENCES Service(ID) 
+
+) 
+
+CREATE TABLE ClientsTax( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_ClientsTax PRIMARY KEY, 
+
+  ID1 int, 
+
+  ID2 int, 
+
+  CONSTRAINT FK_ct_clientID FOREIGN KEY(ID1) REFERENCES Clients(ID),  
+
+  CONSTRAINT FK_ct_taxID FOREIGN KEY(ID2) REFERENCES Tax(ID) 
+
+) 
+
+CREATE TABLE Journal( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_Journal PRIMARY KEY, 
+
+  ID1 int, 
+
+  CONSTRAINT FK_j_employeeID FOREIGN KEY(ID1) REFERENCES Employees(ID) 
+
+) 
+
+CREATE TABLE Registrations( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_Registrations PRIMARY KEY, 
+
+  Meetdate Date, 
+
+  Room int, 
+
+  ID1 int, 
+
+  ID2 int, 
+
+  ID3 int, 
+
+ 
+
+  CONSTRAINT FK_reg_journalID FOREIGN KEY(ID1) REFERENCES Journal(ID), 
+
+  CONSTRAINT FK_reg_serviceID FOREIGN KEY(ID2) REFERENCES Service(ID), 
+
+  CONSTRAINT FK_reg_employeeID FOREIGN KEY(ID3) REFERENCES Employees(ID) 
+
+ 
+
+) 
+
+CREATE TABLE Documents( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_Documents PRIMARY KEY, 
+
+  Name nvarchar(50), 
+
+  ID1 int, 
+
+  CONSTRAINT FK_doc_serviceID FOREIGN KEY(ID1) REFERENCES Service(ID) 
+
+) 
+
+CREATE TABLE Docstatus( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_Docstatus PRIMARY KEY, 
+
+  Name nvarchar(50), 
+
+  Cdate Date, 
+
+  ID1 int, 
+
+  CONSTRAINT FK_ds_documentID FOREIGN KEY(ID1) REFERENCES Documents(ID) 
+
+) 
+
+CREATE TABLE Servicestatus( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_Servicestatus PRIMARY KEY, 
+
+  Name nvarchar(50), 
+
+  Exptime int 
+
+) 
+
+CREATE TABLE Service_Servicestatus( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_Service_Servicestatus PRIMARY KEY, 
+
+  ID1 int, 
+
+  ID2 int, 
+
+  CONSTRAINT FK_ss_serviceID FOREIGN KEY(ID1) REFERENCES Service(ID), 
+
+  CONSTRAINT FK_ss_servicestatusID FOREIGN KEY(ID2) REFERENCES ServiceStatus(ID) 
+
+) 
+
+CREATE TABLE ServiceClients( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_ServiceClients PRIMARY KEY, 
+
+  ID1 int, 
+
+  ID2 int, 
+
+  CONSTRAINT FK_sc_serviceID FOREIGN KEY(ID1) REFERENCES Service(ID), 
+
+  CONSTRAINT FK_ss_clientID FOREIGN KEY(ID2) REFERENCES Clients(ID) 
+
+) 
+
+CREATE TABLE RegistrationsClients( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_RegistrationsClients PRIMARY KEY, 
+
+  ID1 int, 
+
+  ID2 int, 
+
+  CONSTRAINT FK_rc_registrationID FOREIGN KEY(ID1) REFERENCES Registrations(ID), 
+
+  CONSTRAINT FK_rc_clientID FOREIGN KEY(ID2) REFERENCES Clients(ID) 
+
+) 
+
+CREATE TABLE DelJournal( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_DelJournal PRIMARY KEY, 
+
+  Name nvarchar(50), 
+
+  ID1 int, 
+
+  CONSTRAINT FK_dj_serviceID FOREIGN KEY(ID1) REFERENCES Service(ID) 
+
+) 
+
+CREATE TABLE DelReg( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_DelReg PRIMARY KEY, 
+
+  Name nvarchar(50), 
+
+  ID1 int, 
+
+  ID2 int, 
+
+  ID3 int, 
+
+  ID4 int 
+
+) 
+
+CREATE TABLE Deliver( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_Deliver PRIMARY KEY, 
+
+  Name nvarchar(50), 
+
+  Lastname nvarchar(50), 
+
+  Surname nvarchar(50), 
+
+  Birthday date, 
+
+  ID1 int, 
+
+  CONSTRAINT FK_del_delregID FOREIGN KEY(ID1) REFERENCES DelReg(ID) 
+
+) 
+
+CREATE TABLE DelTimes( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_DelTimes PRIMARY KEY, 
+
+  Name nvarchar(50), 
+
+  Times date, 
+
+  ID1 int, 
+
+  CONSTRAINT FK_dt_delregID FOREIGN KEY(ID1) REFERENCES DelReg(ID) 
+
+) 
+
+CREATE TABLE Package( 
+
+  ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_Package PRIMARY KEY, 
+
+  Name nvarchar(50), 
+
+  ID1 int, 
+
+  CONSTRAINT FK_pack_delregID FOREIGN KEY(ID1) REFERENCES DelReg(ID) 
+
+) 
+
+ALTER TABLE DelReg ADD CONSTRAINT FK_dr_packageID FOREIGN KEY(ID1) REFERENCES Package(ID) 
+
+ALTER TABLE DelReg ADD CONSTRAINT FK_dr_deltimeID FOREIGN KEY(ID2) REFERENCES DelTimes(ID) 
+
+ALTER TABLE DelReg ADD CONSTRAINT FK_dr_deliverID FOREIGN KEY(ID3) REFERENCES Deliver(ID) 
+
+ALTER TABLE DelReg ADD CONSTRAINT FK_dr_deljournalID FOREIGN KEY(ID4) REFERENCES DelJournal(ID) 
+
+CREATE TABLE DelStatus( 
+
+  ID int IDENTITY (1,1)  NOT NULL CONSTRAINT PK_DelStatus PRIMARY KEY, 
+
+  Name nvarchar(50) 
+
+) 
+
+CREATE TABLE DelStatusPackage( 
+
+  ID int IDENTITY (1,1)  NOT NULL CONSTRAINT PK_DelStatusPackage PRIMARY KEY, 
+
+  ID1 int, 
+
+  ID2 int, 
+
+  CONSTRAINT FK_dsp_packageID FOREIGN KEY(ID1) REFERENCES Package(ID), 
+
+  CONSTRAINT FK_dsp_delstatusID FOREIGN KEY(ID2) REFERENCES DelStatus(ID) 
+
+) 
+
+ALTER TABLE Registrations ADD NumOfClients int 
+
+INSERT INTO Clients(name, lastname, surname, birthday, position) 
+
+     VALUES 
+
+            ('Vladimir','Vladimirovich','Putin','1955-04-12','unmar'), 
+
+            ('Kazimir','Vladimirovich','Petlin','1957-07-04','mar'), 
+
+            ('Yulia','Petrovna','Kolkina','1999-01-06','unmar'), 
+
+            ('Daria','Igorevna','Popova','2002-05-02','unmar'), 
+
+('Pavel','Sigizmundovich','Stahanov','1967-09-11','unmar') 
+
+INSERT INTO Employees(name, lastname, surname, birthday, position) 
+
+     VALUES 
+
+            ('Vladimir','Vladimirovich','Koltsev','1955-04-12','director'), 
+
+            ('Kazimir','Vladimirovich','Pentsev','1957-07-04','assistant'), 
+
+            ('Yulia','Petrovna','Sonina','1999-01-06','assistant'), 
+
+            ('Daria','Igorevna','Lonina','2002-05-02','receptionist'), 
+
+('Pavel','Sigizmundovich','Kardanov','1967-09-11','cashier') 
+
+INSERT INTO Service(name, provtime) 
+
+     VALUES 
+
+            ('Passport',30), 
+
+            ('INN',15), 
+
+            ('Property',20), 
+
+            ('Marriage',40), 
+
+('Divorce',90) 
+
+INSERT INTO Tax(name, payment) 
+
+     VALUES 
+
+            ('Car',3000), 
+
+            ('Salary',1500), 
+
+            ('Property',12000), 
+
+            ('Wealth',40000), 
+
+('Business',90000) 
+
+INSERT INTO Positions(name) 
+
+     VALUES 
+
+            ('pasmaker'), 
+
+            ('citgiver'), 
+
+            ('marrier'), 
+
+            ('divorcer'), 
+
+('childdeclarer') 
+
+INSERT INTO EmployeesPositions(ID1, ID2) 
+
+     VALUES 
+
+            (1,2), 
+
+            (3,2), 
+
+            (3,4), 
+
+            (5,1), 
+
+(4,4) 
+
+INSERT INTO EmployeesServices(ID, ID1, ID2) 
+
+     VALUES 
+
+            ('0105',1,5), 
+
+            ('0303',3,3), 
+
+            ('0201',2,1), 
+
+            ('0504',5,4), 
+
+('0402',4,2) 
+
+INSERT INTO ClientsTax(ID1, ID2) 
+
+     VALUES 
+
+            (1,5), 
+
+            (3,3), 
+
+            (2,1), 
+
+            (5,4), 
+
+(4,2) 
+
+INSERT INTO Journal(ID1) 
+
+     VALUES 
+
+            (1), 
+
+            (3), 
+
+            (2), 
+
+            (5), 
+
+(4) 
+
+INSERT INTO Registrations(Meetdate, Room, ID1, ID2, ID3, NumOfClients) 
+
+     VALUES 
+
+            ('2019-06-04', 212, 1, 4, 5, 1), 
+
+            ('2019-06-05', 211, 2, 3, 2, 2), 
+
+('2019-06-06', 105, 5, 2, 3, 1), 
+
+('2019-06-07', 333, 3, 1, 4, 2), 
+
+('2019-06-08', 234, 4, 5, 1, 1) 
+
+ALTER TABLE Documents ADD sernumber int 
+
+INSERT INTO Documents(name, ID1, sernumber) 
+
+     VALUES 
+
+            ('passport', 1, 4514), 
+
+            ('snils', 3, 6789), 
+
+            ('INN', 4, 3057), 
+
+            ('birthdeclaration', 1, 4927), 
+
+('deathdeclaration', 3, 4826) 
+
+INSERT INTO Docstatus(name, Cdate, ID1) 
+
+     VALUES 
+
+            ('expired', '2019-05-04', 1), 
+
+            ('spec_control', '2019-04-23', 3), 
+
+            ('ok', '2019-02-18', 2), 
+
+            ('invalid', '2019-06-13', 4), 
+
+('ready', '2019-05-22', 3) 
+
+INSERT INTO Servicestatus(Name, Exptime) 
+
+     VALUES 
+
+            ('done', 365), 
+
+            ('printing', 30), 
+
+            ('declaring', 15), 
+
+('start', 5) 
+
+INSERT INTO Servicestatus(Name) 
+
+     VALUES 
+
+ ('FBI_control') 
+
+INSERT INTO Service_Servicestatus(ID1, ID2) 
+
+     VALUES 
+
+            (1,5), 
+
+            (3,2), 
+
+            (2,3), 
+
+            (4,4), 
+
+(5,1) 
+
+INSERT INTO ServiceClients(ID1, ID2) 
+
+     VALUES 
+
+            (1,4), 
+
+            (3,1), 
+
+            (2,5), 
+
+            (4,2), 
+
+(5,3) 
+
+INSERT INTO RegistrationsClients(ID1, ID2) 
+
+     VALUES 
+
+            (1,4), 
+
+            (3,1), 
+
+            (2,5), 
+
+            (4,2), 
+
+(5,3) 
+
+ 
+
+ 
+
+CREATE TRIGGER INSERTCLIREG 
+
+ON [RegistrationsClients] 
+
+AFTER INSERT  
+
+AS 
+
+DECLARE @regid int 
+
+SET @regid=(SELECT ID1 FROM INSERTED) 
+
+UPDATE Registrations SET NumOfClients=NumOfClients+1 
+
+WHERE ID=@regid 
+
+GO 
+
+ 
+
+CREATE TRIGGER DELETECLIREG 
+
+ON [RegistrationsClients] 
+
+AFTER DELETE  
+
+AS 
+
+DECLARE @regid int 
+
+SET @regid=(SELECT ID1 FROM DELETED) 
+
+UPDATE Registrations SET NumOfClients=NumOfClients-1 
+
+WHERE ID=@regid 
+
+GO 
+
+ 
+
+CREATE TRIGGER UPDATECLIREG 
+
+ON [RegistrationsClients] 
+
+FOR UPDATE 
+
+AS 
+
+DECLARE @regidwas int 
+
+SET @regidwas=(SELECT ID1 FROM DELETED) 
+
+DECLARE @regidis int 
+
+SET @regidis=(SELECT ID1 FROM INSERTED) 
+
+UPDATE Registrations SET NumOfClients=NumOfClients-1 
+
+WHERE ID=@regidwas 
+
+UPDATE Registrations SET NumOfClients=NumOfClients+1 
+
+WHERE ID=@regidis 
+
+GO 
+
+ 
+
+ 
+
+ TEST FOR TRIGGER 1 
+
+ 
+
+INSERT INTO RegistrationsClients(ID1, ID2) 
+
+     VALUES 
+
+            (3,3) 
+
+ 
+
+UPDATE RegistrationsClients 
+
+SET ID1=2 
+
+WHERE ID=8 
+
+ 
+
+DELETE FROM RegistrationsClients 
+
+WHERE ID=13 
+
+ 
+
+SELECT * FROM Registrations 
+
+SELECT * FROM RegistrationsClients 
+
+ 
+
+ 
+
+ 
+
+CREATE TRIGGER INSERTDATACHOOSER 
+
+ON [Registrations] 
+
+FOR INSERT 
+
+AS 
+
+DECLARE @addedemp int, @addeddate date, @regid int 
+
+SET @regid=(SELECT ID FROM INSERTED) 
+
+SET @addedemp=(SELECT ID3 FROM INSERTED) 
+
+SET @addeddate=(SELECT Meetdate FROM INSERTED) 
+
+IF EXISTS(SELECT * FROM Registrations WHERE (Meetdate=@addeddate AND ID3 = @addedemp AND ID<>@regid)) 
+
+BEGIN 
+
+WHILE (EXISTS(SELECT * FROM Registrations WHERE (Meetdate=@addeddate AND ID3 = @addedemp AND ID<>@regid))) 
+
+BEGIN 
+
+SET @addeddate=DATEADD(dd,1,@addeddate) 
+
+END; 
+
+UPDATE Registrations 
+
+SET Meetdate=@addeddate 
+
+WHERE ID=@regid 
+
+END; 
+
+GO 
+
+ 
+
+ 
+
+CREATE TRIGGER UPDATEDATACHOOSER 
+
+ON [Registrations] 
+
+FOR UPDATE 
+
+AS 
+
+DECLARE @addedemp int, @addeddate date, @regid int 
+
+SET @regid=(SELECT ID FROM INSERTED) 
+
+SET @addedemp=(SELECT ID3 FROM INSERTED) 
+
+SET @addeddate=(SELECT Meetdate FROM INSERTED) 
+
+IF EXISTS(SELECT * FROM Registrations WHERE (Meetdate=@addeddate AND ID3 = @addedemp AND ID<>@regid)) 
+
+BEGIN 
+
+WHILE (EXISTS(SELECT * FROM Registrations WHERE (Meetdate=@addeddate AND ID3 = @addedemp AND ID<>@regid))) 
+
+BEGIN 
+
+SET @addeddate=DATEADD(dd,1,@addeddate) 
+
+END; 
+
+UPDATE Registrations 
+
+SET Meetdate=@addeddate 
+
+WHERE ID=@regid 
+
+END; 
+
+GO 
+
+ 
+
+ 
+
+ TEST FOR TRIGGER 2 
+
+ 
+
+INSERT INTO Registrations(Meetdate, Room, ID1, ID2, ID3, NumOfClients) 
+
+     VALUES 
+
+            ('2019-06-05', 212, 1, 4, 5, 1) 
+
+ 
+
+DELETE FROM Registrations 
+
+WHERE ID = 26 
+
+ 
+
+UPDATE Registrations  
+
+SET Meetdate='2019-06-01',  
+
+ID3 = 2 
+
+WHERE ID = 2 
+
+ 
+
+SELECT * FROM Registrations 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ALTER TABLE Journal ADD empsur nvarchar(50) 
+
+ 
+
+CREATE TRIGGER INSERTSURNAME  
+
+ON [Employees] 
+
+AFTER INSERT 
+
+AS 
+
+DECLARE @surname nvarchar(50), @num int 
+
+SET @num=(SELECT ID FROM INSERTED) 
+
+SET @surname = (SELECT Surname FROM INSERTED) 
+
+INSERT INTO Journal(ID1, empsur) 
+
+VALUES 
+
+(@num, @surname) 
+
+GO 
+
+ 
+
+CREATE TRIGGER UPDATESURNAME  
+
+ON [Employees] 
+
+AFTER UPDATE 
+
+AS 
+
+DECLARE @surname nvarchar(50), @num int 
+
+SET @num=(SELECT ID FROM INSERTED) 
+
+SET @surname = (SELECT Surname FROM INSERTED) 
+
+UPDATE Journal 
+
+SET ID1 = @num, 
+
+empsur = @surname 
+
+WHERE ID1 = (SELECT ID FROM DELETED) 
+
+GO 
+
+ 
+
+  TEST FOR TRIGGER 3 
+
+ 
+
+INSERT INTO Employees(name, lastname, surname, birthday, position) 
+
+     VALUES 
+
+            ('Vladimir','Vladimirovich','Senin','1955-04-12','director') 
+
+ 
+
+UPDATE Employees 
+
+SET Surname = 'Gagarin' 
+
+WHERE ID = 8 
+
+ 
+
+DELETE FROM Journal 
+
+WHERE ID = 8 
+
+ 
+
+DELETE FROM Employees 
+
+WHERE ID = 8 
+
+ 
+
+SELECT * FROM Employees 
+
+SELECT * FROM Journal 
+
+ 
+
+ 
+
+ 
+
+ 
+
+CREATE TRIGGER DELETEREG 
+
+ON [Registrations] 
+
+INSTEAD OF DELETE 
+
+AS 
+
+DECLARE @num int 
+
+SET @num=(SELECT ID FROM DELETED) 
+
+WHILE EXISTS(SELECT*FROM RegistrationsClients WHERE ID1=@num) 
+
+BEGIN 
+
+DELETE FROM RegistrationsClients 
+
+WHERE ID1=@num 
+
+END; 
+
+DELETE FROM Registrations 
+
+WHERE ID=@num 
+
+GO 
+
+ 
+
+DROP TRIGGER DELETEREG 
+
+ 
+
+TEST FOR TRIGGER 4 
+
+ 
+
+DELETE FROM Registrations 
+
+WHERE ID=26 
+
+ 
+
+INSERT INTO Registrations(Meetdate, Room, ID1, ID2, ID3, NumOfClients) 
+
+     VALUES 
+
+            ('2019-06-04', 212, 1, 4, 5, 1) 
+
+ 
+
+INSERT INTO RegistrationsClients(ID1, ID2) 
+
+     VALUES 
+
+            (26,4) 
+
+ 
+
+SELECT * FROM Registrations 
+
+SELECT * FROM RegistrationsClients 
+
+ 
+
+ 
+
+ 
+
+CREATE TRIGGER INSERTEMPSER 
+
+ON [EmployeesServices] 
+
+INSTEAD OF INSERT 
+
+AS 
+
+DECLARE @id1 int, @id2 int, @res nvarchar(50) 
+
+SET @id1=(SELECT ID1 FROM INSERTED) 
+
+SET @id2=(SELECT ID2 FROM INSERTED) 
+
+SET @res = '0' + CONVERT(nvarchar(50), @id1) + '0' + CONVERT(nvarchar(50), @id2) 
+
+INSERT INTO EmployeesServices(ID, ID1, ID2) 
+
+VALUES  
+
+(@res, @id1, @id2) 
+
+GO 
+
+ 
+
+ 
+
+CREATE TRIGGER UPDATEEMPSER 
+
+ON [EmployeesServices] 
+
+INSTEAD OF UPDATE 
+
+AS 
+
+DECLARE @prevres nvarchar(50), @id1 int, @id2 int, @res nvarchar(50) 
+
+SET @prevres=(SELECT ID FROM DELETED) 
+
+SET @id1=(SELECT ID1 FROM INSERTED) 
+
+SET @id2=(SELECT ID2 FROM INSERTED) 
+
+SET @res = '0' + CONVERT(nvarchar(50), @id1) + '0' + CONVERT(nvarchar(50), @id2) 
+
+UPDATE EmployeesServices 
+
+SET ID=@res, ID1=@id1, ID2=@id2 
+
+WHERE ID=@prevres 
+
+GO 
+
+ 
+
+ TEST FOR TRIGGER 5 
+
+ 
+
+INSERT INTO EmployeesServices(ID, ID1, ID2) 
+
+     VALUES 
+
+            ('0',4,1) 
+
+ 
+
+UPDATE EmployeesServices 
+
+SET ID1=3 
+
+WHERE ID='0401' 
+
+ 
+
+DELETE FROM EmployeesServices 
+
+WHERE ID = '0301' 
+
+ 
+
+SELECT * FROM EmployeesServices 
+
+ 
+
+ 
+
+ 
+
+CREATE TRIGGER INSERTSSS 
+
+ON [Service_Servicestatus] 
+
+AFTER INSERT 
+
+AS 
+
+DECLARE @statusid int, @serviceid int, @amount int, @i int 
+
+SET @i=1 
+
+SET @statusid=(SELECT ID2 FROM INSERTED) 
+
+SET @serviceid=(SELECT ID1 FROM INSERTED) 
+
+SET @amount=(SELECT Provtime FROM Service WHERE ID=@serviceid) 
+
+CREATE TABLE checking( 
+
+ID int, 
+
+Name nvarchar(50), 
+
+Exptime int 
+
+) 
+
+WHILE EXISTS(SELECT*FROM Service_Servicestatus WHERE (ID1=@serviceid AND ID>=@i)) 
+
+BEGIN 
+
+IF (SELECT ID1 FROM Service_Servicestatus WHERE ID=@i)=@serviceid 
+
+BEGIN 
+
+INSERT INTO checking(ID, Name, Exptime) 
+
+VALUES 
+
+((SELECT ID2 FROM Service_Servicestatus WHERE ID=@i),(SELECT Name FROM Servicestatus WHERE ID=(SELECT ID2 FROM Service_Servicestatus WHERE ID=@i)),(SELECT Exptime FROM Servicestatus WHERE ID=(SELECT ID2 FROM Service_Servicestatus WHERE ID=@i))) 
+
+END; 
+
+SET @i = @i + 1 
+
+END; 
+
+IF(SELECT Provtime FROM Service WHERE ID=@serviceid)>(SELECT MAX(Exptime) FROM checking) 
+
+BEGIN 
+
+UPDATE Service  
+
+SET Provtime = (SELECT MAX(Exptime) FROM checking) 
+
+WHERE ID=@serviceid 
+
+END; 
+
+DROP TABLE checking 
+
+GO 
+
+ 
+
+ 
+
+ 
+
+ 
+
+CREATE TRIGGER UPDATESSS 
+
+ON [Service_Servicestatus] 
+
+AFTER UPDATE 
+
+AS 
+
+DECLARE @statusid int, @serviceid int, @amount int, @i int 
+
+SET @i=1 
+
+SET @statusid=(SELECT ID2 FROM INSERTED) 
+
+SET @serviceid=(SELECT ID1 FROM INSERTED) 
+
+SET @amount=(SELECT Provtime FROM Service WHERE ID=@serviceid) 
+
+CREATE TABLE checking( 
+
+ID int, 
+
+Name nvarchar(50), 
+
+Exptime int 
+
+) 
+
+WHILE EXISTS(SELECT*FROM Service_Servicestatus WHERE (ID1=@serviceid AND ID>=@i)) 
+
+BEGIN 
+
+IF (SELECT ID1 FROM Service_Servicestatus WHERE ID=@i)=@serviceid 
+
+BEGIN 
+
+INSERT INTO checking(ID, Name, Exptime) 
+
+VALUES 
+
+((SELECT ID2 FROM Service_Servicestatus WHERE ID=@i),(SELECT Name FROM Servicestatus WHERE ID=(SELECT ID2 FROM Service_Servicestatus WHERE ID=@i)),(SELECT Exptime FROM Servicestatus WHERE ID=(SELECT ID2 FROM Service_Servicestatus WHERE ID=@i))) 
+
+END; 
+
+SET @i = @i + 1 
+
+END; 
+
+IF(SELECT Provtime FROM Service WHERE ID=@serviceid)>(SELECT MAX(Exptime) FROM checking) 
+
+BEGIN 
+
+UPDATE Service  
+
+SET Provtime = (SELECT MAX(Exptime) FROM checking) 
+
+WHERE ID=@serviceid 
+
+END; 
+
+DROP TABLE checking 
+
+GO 
+
+ 
+
+ TEST FOR TRIGGER 6 
+
+ 
+
+UPDATE Service_Servicestatus  
+
+SET ID1 = 3, ID2 = 4 
+
+WHERE ID = 2 
+
+ 
+
+UPDATE Service 
+
+SET Provtime=20 
+
+WHERE ID=3 
+
+ 
+
+INSERT INTO Service_Servicestatus(ID1, ID2) 
+
+VALUES 
+
+(3,5) 
+
+ 
+
+DELETE FROM Service_Servicestatus 
+
+WHERE ID=8 
+
+ 
+
+SELECT * FROM service_Servicestatus 
+
+SELECT * FROM Service 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ALTER TABLE Documents ADD docnumber nvarchar(50) 
+
+ 
+
+ALTER TABLE Documents ADD issuedate date 
+
+ 
+
+CREATE TRIGGER INSERTDOC 
+
+ON [Documents] 
+
+AFTER INSERT 
+
+AS 
+
+DECLARE @num nvarchar(50), @res date, @stringres nvarchar(50), @d nvarchar(50) 
+
+SET @num=LEFT((SELECT docnumber FROM INSERTED),8) 
+
+SET @d=LEFT(@num,2) 
+
+SET @num=RIGHT(@num,6) 
+
+SET @stringres = (RIGHT(@num,4)+LEFT(@num,2)+@d) 
+
+SET @res=CAST(@stringres AS date) 
+
+UPDATE Documents 
+
+SET issuedate = @res 
+
+WHERE ID=(SELECT ID FROM INSERTED) 
+
+GO 
+
+ 
+
+ 
+
+CREATE TRIGGER UPDATEDOC 
+
+ON [Documents] 
+
+AFTER UPDATE 
+
+AS 
+
+DECLARE @num nvarchar(50), @res date, @stringres nvarchar(50), @d nvarchar(50) 
+
+SET @num=LEFT((SELECT docnumber FROM INSERTED),8) 
+
+SET @d=LEFT(@num,2) 
+
+SET @num=RIGHT(@num,6) 
+
+SET @stringres = (RIGHT(@num,4)+LEFT(@num,2)+@d) 
+
+SET @res=CAST(@stringres AS date) 
+
+UPDATE Documents 
+
+SET issuedate = @res 
+
+WHERE ID=(SELECT ID FROM INSERTED) 
+
+GO 
+
+ 
+
+ 
+
+ 
+
+UPDATE Documents 
+
+SET docnumber = '060720124514' 
+
+WHERE ID = 1 
+
+ 
+
+UPDATE Documents 
+
+SET docnumber = '270320005690' 
+
+WHERE ID = 2 
+
+ 
+
+UPDATE Documents 
+
+SET docnumber = '050220117632' 
+
+WHERE ID = 3 
+
+ 
+
+UPDATE Documents 
+
+SET docnumber = '180220025555' 
+
+WHERE ID = 4 
+
+ 
+
+UPDATE Documents 
+
+SET docnumber = '121220078967' 
+
+WHERE ID = 5 
+
+ 
+
+ 
+
+ 
+
+ TEST FOR TRIGGER 7 
+
+ 
+
+INSERT INTO Documents(name, ID1, sernumber, docnumber) 
+
+     VALUES 
+
+            ('tunnelcard', 2, 7588, '150320138967') 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+INSERT INTO Documents(name, ID1, sernumber) 
+
+     VALUES 
+
+            ('serpentcard', 5, 7588) 
+
+ 
+
+ 
+
+UPDATE Documents 
+
+SET docnumber = '141120198967' 
+
+WHERE ID = 8 
+
+ 
+
+ 
+
+CREATE TABLE Relations( 
+
+ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_Relations PRIMARY KEY, 
+
+ID1 int, 
+
+ID2 int, 
+
+Child int, 
+
+CONSTRAINT FK_rl_parent1 FOREIGN KEY(ID1) REFERENCES Clients(ID), 
+
+CONSTRAINT FK_rl_parent2 FOREIGN KEY(ID2) REFERENCES Clients(ID), 
+
+CONSTRAINT FK_rl_child FOREIGN KEY(Child) REFERENCES Clients(ID) 
+
+) 
+
+ 
+
+CREATE TABLE House( 
+
+ID int IDENTITY (1,1) NOT NULL CONSTRAINT PK_House PRIMARY KEY, 
+
+Sqr int, 
+
+Place nvarchar(100) 
+
+) 
+
+ 
+
+ 
+
+INSERT INTO House(Sqr, Place) VALUES 
+
+(25, 'Tverskaya, 3'), 
+
+(35, 'Yamskaya, 6'), 
+
+(12, 'Kolomskaya, 9'), 
+
+(1500, 'Detdom') 
+
+ 
+
+insert into House(Sqr, Place) 
+
+values(0, 'seized') 
+
+ 
+
+ALTER TABLE Clients ADD IDH int 
+
+CONSTRAINT FK_cl_house FOREIGN KEY(IDH) REFERENCES House(ID) 
+
+ 
+
+ 
+
+UPDATE CLients 
+
+SET IDH = 3 
+
+WHERE ID = 3 
+
+ 
+
+DELETE FROM Relations  
+
+WHERE ID = 1 
+
+ 
+
+DROP TRIGGER INSERTCHILD 
+
+ 
+
+CREATE TRIGGER INSERTCHILD 
+
+ON [Relations] 
+
+AFTER INSERT 
+
+AS 
+
+DECLARE @sqr1 int, @sqr2 int 
+
+SET @sqr1 = (SELECT Sqr FROM House WHERE ID = (SELECT IDH FROM Clients WHERE ID = (SELECT ID1 FROM INSERTED))) 
+
+SET @sqr2 = (SELECT Sqr FROM House WHERE ID = (SELECT IDH FROM Clients WHERE ID = (SELECT ID2 FROM INSERTED))) 
+
+IF (@sqr1 >= 20) 
+
+BEGIN 
+
+UPDATE Clients  
+
+SET IDH = (SELECT IDH FROM Clients WHERE ID = (SELECT ID1 FROM INSERTED)) 
+
+WHERE ID = (SELECT Child FROM INSERTED) 
+
+END; 
+
+ELSE 
+
+BEGIN 
+
+IF (@sqr2 >= 20) 
+
+BEGIN 
+
+UPDATE Clients  
+
+SET IDH = (SELECT IDH FROM Clients WHERE ID = (SELECT ID2 FROM INSERTED)) 
+
+WHERE ID = (SELECT Child FROM INSERTED) 
+
+END; 
+
+ELSE 
+
+BEGIN 
+
+UPDATE Clients  
+
+SET IDH = 4 
+
+WHERE ID = (SELECT Child FROM INSERTED) 
+
+END; 
+
+END; 
+
+GO 
+
+ 
+
+CREATE TRIGGER UPDATEHOUSE 
+
+ON [Clients] 
+
+AFTER UPDATE 
+
+AS 
+
+DECLARE @sqr int, @i int, @c int 
+
+SET @c = 1 
+
+SET @i = (SELECT Max(ID) FROM Relations)  
+
+SET @sqr = (SELECT Sqr FROM House WHERE ID = (SELECT IDH FROM INSERTED)) 
+
+IF (EXISTS (SELECT * FROM Relations WHERE ID1 = (SELECT ID FROM INSERTED)) OR EXISTS (SELECT * FROM Relations WHERE ID2 = (SELECT ID FROM INSERTED))) 
+
+BEGIN  
+
+IF (@sqr >= 20) 
+
+BEGIN  
+
+WHILE (@i > 0) 
+
+BEGIN 
+
+IF (((SELECT ID1 FROM Relations WHERE ID = @c) = (SELECT ID FROM INSERTED)) OR ((SELECT ID2 FROM Relations WHERE ID = @c) = (SELECT ID FROM INSERTED))) 
+
+BEGIN 
+
+IF  
+
+END; 
+
+UPDATE Clients 
+
+SET IDH = (SELECT IDH FROM INSERTED) 
+
+WHERE (IDH = 4 AND ((SELECT ID1 FROM Relations = (SELECT ID FROM INSERTED)) OR (SELECT ID2 FROM Relations = (SELECT ID FROM INSERTED)))) 
+
+END; 
+
+END; 
+
+GO 
+
+ 
+
+INSERT INTO Relations 
+
+VALUES 
+
+(3, 3, 5) 
+
+ 
+
+ 
+
+SELECT * FROM Clients 
+
+SELECT * FROM House 
+
+SELECT * FROM Relations 
+
+ 
+
+ 
+
+drop function thesesquares 
+
+/*    возвращает детей не из детдома, 
+
+ у которых площадь квартиры больше или равна введенной     0.4 балла      */ 
+
+create function thesesquares(@limit as int)  
+
+returns table 
+
+as 
+
+return( 
+
+select Clients.ID, Clients.Surname, Clients.Name, Clients.IDH as Housenumber, House.Sqr from Clients 
+
+join House on Clients.IDH = House.ID 
+
+join Relations on Clients.ID = Relations.Child  
+
+where (sqr>=@limit and House.ID<>4) 
+
+) 
+
+ 
+
+select*from thesesquares(20) 
+
+ 
+
+drop function theseregs 
+
+ 
+
+ 
+
+/*    возвращает прошедшие записи для кабинетов от первого предела до второго   
+
+   0.5 балла      */ 
+
+create function theseregs(@limit1 as int, @limit2 as int)  
+
+returns table 
+
+as 
+
+return( 
+
+select Registrations.ID as regid, Registrations.Room as room, Registrations.NumOfClients as noc from Registrations 
+
+where (Registrations.Room >= @limit1 and Registrations.Room <= @limit2) 
+
+group by Registrations.ID, Registrations.NumOfClients, Registrations.Meetdate, Registrations.Room having (Registrations.Meetdate <= getdate()) 
+
+) 
+
+ 
+
+ 
+
+select*from theseregs(200,350) 
+
+ 
+
+drop function whatposition 
+
+ 
+
+insert into Tax(Name, Payment) 
+
+values('Bankrupt', 0) 
+
+ 
+
+ 
+
+/* 
+
+create function whatposition(@cabnum1 as int, @cabnum2 as int)  
+
+returns table 
+
+as 
+
+begin 
+
+declare @res nvarchar(50), @cab int, @date date 
+
+set @date = (select MAX(Registrations.Meetdate) from Registrations) 
+
+set @cab = (select Room from Registrations where ((select Registrations.Room from Registrations) >= @cabnum1 and (select Registrations.Room from Registrations) <= @cabnum2) and (select Registrations.Meetdate from Registrations) = @date) 
+
+set @res = (select Position from Employees where ID = (select ID3 from Registrations where Room  = @cab and  Meetdate = @date)) 
+
+return @res; 
+
+end 
+
+ 
+
+declare @t nvarchar(50) 
+
+set @t = (select dbo.whatposition(200,350)) 
+
+*/ 
+
+ 
+
+declare @date date 
+
+set @date = (select MAX(Registrations.Meetdate) from Registrations) 
+
+select Room from Registrations where Registrations.Meetdate = @date 
+
+ 
+
+drop function howmanykids 
+
+ 
+
+create function married(@num1 int, @num2 int) 
+
+returns table 
+
+as 
+
+return( 
+
+select Clients.ID as ID, Clients.Surname as surname, Clients.Name as name from Clients 
+
+where (LEFT(Clients.Position,3) = 'mar') 
+
+group by Clients.ID, Clients.Surname, Clients.Name having (Clients.ID > @num1 and Clients.ID < @num2) 
+
+) 
+
+ 
+
+select*from married(1,5) 
+
+ 
+
+ 
+
+drop procedure newstaff 
+
+ 
+
+/* создает новую должность,  
+
+сотрудника это должности,  
+
+журнал с указанием его должности в фамилии 
+
+ и назначает первый прием с нужным человеком в кабинет 213 (3.8 балла)   */ 
+
+create procedure newstaff 
+
+@posname nvarchar(50), @surname nvarchar(50), @name nvarchar(50), @lastname nvarchar(50), @position nvarchar(50), @bday date, @client int, @serv int 
+
+as 
+
+begin 
+
+insert into Positions(Name) 
+
+values(@posname) 
+
+insert into Employees(Surname, Name, Lastname, Birthday, Position) 
+
+values(@surname, @name, @lastname, @bday, @position) 
+
+declare @id int 
+
+set @id = (select ID from Employees where (Birthday = @bday and ID = (select MAX(ID) from Employees))) 
+
+insert into EmployeesPositions(ID1, ID2) 
+
+values(@id, (select ID from Positions where ID = (select MAX(ID) from Positions))) 
+
+set @surname = @surname + ' the ' + @posname 
+
+update Journal 
+
+set empsur = @surname 
+
+where ID1 = @id 
+
+insert into Registrations(Meetdate, Room, ID1, ID2, ID3, NumOfClients) 
+
+values(GETDATE(), 213, (select ID from Journal where ID1 = @id and empsur = @surname), @serv, @id, 0) 
+
+insert into RegistrationsClients(ID1, ID2) 
+
+values((select MAX(Registrations.ID) from Registrations), @client) 
+
+end 
+
+ 
+
+ 
+
+exec newstaff @posname = 'znatok', @surname = 'Philippov', @name = 'Ivan', @lastname = 'Dmitrievich', @position = 'helper', @bday = '2000-03-27', @client = 2, @serv = 1 
+
+ 
+
+drop procedure deletestaff 
+
+ 
+
+ 
+
+/*  Удаляет должность, вместе с ней  
+
+все журналы людей этой должности, 
+
+ все записи с людьми этой должности 
+
+  и все сопутствующие связи    (4.1 балла) */ 
+
+create procedure deletestaff 
+
+@posname nvarchar(50) 
+
+as 
+
+begin 
+
+delete from RegistrationsClients 
+
+where ID1 = any(select ID from Registrations where ID3 = any(select ID1 from EmployeesPositions where ID2 = (select ID from Positions where Name = @posname and ID <> 1))) 
+
+delete from Registrations 
+
+where ID3 = any(select ID1 from EmployeesPositions where ID2 = (select ID from Positions where Name = @posname and ID <> 1)) 
+
+delete from Journal 
+
+where ID1 = any(select ID1 from EmployeesPositions where ID2 = (select ID from Positions where Name = @posname and ID <> 1)) 
+
+delete from EmployeesPositions 
+
+where ID2 = (select ID from Positions where Name = @posname and ID <> 1) 
+
+delete from Positions 
+
+where Name = @posname 
+
+end 
+
+ 
+
+exec deletestaff @posname = 'znatok' 
+
+ 
+
+ 
+
+create procedure stat 
+
+as 
+
+begin 
+
+declare @stats table(avgregcli float, avgempreg float, avgclireg float, avgjoureg float, avgclichi float, sumoftaxes int, avgprovtime float, avgtaxsize float) 
+
+declare @avgemp table(position nvarchar(50), numberofemployees int) 
+
+declare @numofregs table(servicename nvarchar(50), numberofregs int) 
+
+insert into @stats(avgregcli, avgempreg, avgclireg, avgjoureg, avgclichi, sumoftaxes, avgprovtime, avgtaxsize) 
+
+values( 
+
+(select AVG(NumOfClients) from Registrations), 
+
+ 
+
+) 
+
+end 
+
+ 
+
+drop procedure checkforthieves 
+
+ 
+
+/* Показывает все записи и доп. информацию 
+
+ о них с введенными сотрудниками, 
+
+  затем меняет этих сотрудников местами 
+
+   на записях и меняет кабинеты (если есть подозрение о взятке) 4.5 балла */ 
+
+create procedure checkforthieves 
+
+@surname1 nvarchar(50), @name1 nvarchar(50), @surname2 nvarchar(50), @name2 nvarchar(50) 
+
+as 
+
+begin 
+
+declare @was table(clients int, thedate date, room int, clientnumber int, empsurname nvarchar(50), empname nvarchar(50)) 
+
+insert into @was(clients, thedate, room, clientnumber, empsurname, empname) 
+
+select  
+
+Registrations.NumOfClients as clients, 
+
+Registrations.Meetdate as thedate, 
+
+Registrations.Room as room, 
+
+RegistrationsClients.ID2 as clientnumber, 
+
+Employees.Surname as empsurname, 
+
+Employees.Name as empname from Registrations 
+
+join RegistrationsClients on RegistrationsClients.ID1 = Registrations.ID 
+
+join Employees on Employees.ID = Registrations.ID3 
+
+group by Registrations.Room, RegistrationsClients.ID2, Employees.Surname, Employees.Name, Registrations.NumOfClients, Registrations.Meetdate 
+
+having Registrations.NumOfClients = 1 
+
+ 
+
+ 
+
+update Registrations 
+
+set Room = Room + 2 
+
+where ID3 = (select ID from Employees where Surname = @surname1 and Name = @name1) 
+
+ 
+
+update Registrations 
+
+set Room = Room + 3 
+
+where ID3 = (select ID from Employees where Surname = @surname2 and Name = @name2) 
+
+ 
+
+update Registrations 
+
+set ID3 = 11 
+
+where ID3 = (select ID from Employees where Surname = @surname2 and Name = @name2) 
+
+ 
+
+update Registrations 
+
+set ID3 = (select ID from Employees where Surname = @surname2 and Name = @name2) 
+
+where ID3 = (select ID from Employees where Surname = @surname1 and Name = @name1) 
+
+ 
+
+update Registrations 
+
+set ID3 = (select ID from Employees where Surname = @surname1 and Name = @name1) 
+
+where ID3 = 11 
+
+ 
+
+declare @now table(clients int, thedate date, room int, clientnumber int, empsurname nvarchar(50), empname nvarchar(50)) 
+
+insert into @now(clients, thedate, room, clientnumber, empsurname, empname) 
+
+select  
+
+Registrations.NumOfClients as clients, 
+
+Registrations.Meetdate as thedate, 
+
+Registrations.Room as room, 
+
+RegistrationsClients.ID2 as clientnumber, 
+
+Employees.Surname as empsurname, 
+
+Employees.Name as empname from Registrations 
+
+join RegistrationsClients on RegistrationsClients.ID1 = Registrations.ID 
+
+join Employees on Employees.ID = Registrations.ID3 
+
+group by Registrations.Room, RegistrationsClients.ID2, Employees.Surname, Employees.Name, Registrations.NumOfClients, Registrations.Meetdate 
+
+having Registrations.NumOfClients = 1 
+
+ 
+
+ 
+
+select*from @was 
+
+select*from @now 
+
+ 
+
+end 
+
+ 
+
+ 
+
+ 
+
+exec checkforthieves @surname1 = 'Kardanov', @surname2 = 'Sonina', @name1 = 'Pavel', @name2 = 'Yulia' 
+
+ 
+
+ 
+
+/* 
+
+update Registrations 
+
+set Room = Room - 29 
+
+where ID3 = (select ID from Employees where Surname = 'Kardanov' and Name = 'Pavel') 
+
+ 
+
+ 
+
+update Registrations 
+
+set NumOfClients = 1 
+
+where ID = 28 
+
+ 
+
+insert into Employees(Surname) 
+
+values('Fictious') 
+
+ 
+
+insert into RegistrationsClients(ID1, ID2) 
+
+values 
+
+(28, 4) 
+
+ 
+
+*/ 
+
+ 
+
+/* добавляет новую услугу с введенными данными,  
+
+создает и привязывает к ней статус услуги,  
+
+документ со статусом, также выделает людей,  
+
+которые могут предоставлять эту услугу  
+
+(всех в диапазоне от posnumber1 до posnumber2)  4.2 балла */ 
+
+ 
+
+drop procedure newservice 
+
+ 
+
+ 
+
+exec newservice @name = 'VISA', @provtime = 30, @docname = 'visa', @docser = 3476, @docnum = '270320006795', @docstatusname = 'MID control', @posnumber1 = 1, @posnumber2 = 3, @ssname = 'MID control', @sstime = 30 
+
+ 
+
+create procedure newservice 
+
+@name nvarchar(50), @provtime int, @docname nvarchar(50), @docser int, @docnum nvarchar(50), @docstatusname nvarchar(50), @posnumber1 int, @posnumber2 int, @ssname nvarchar(50), @sstime int 
+
+as 
+
+begin 
+
+insert into Service(Name, Provtime) 
+
+values(@name, @provtime) 
+
+insert into Documents(Name, sernumber, docnumber, ID1) 
+
+values(@docname, @docser, @docnum, (select ID from Service where Name = @docname and Provtime = @provtime)) 
+
+insert into Docstatus(Name, Cdate, ID1) 
+
+values(@docstatusname, GETDATE(), (select ID from Documents where sernumber = @docser and docnumber = @docnum)) 
+
+insert into Servicestatus(Name, Exptime) 
+
+values(@ssname, @sstime) 
+
+insert into Service_Servicestatus(ID1, ID2) 
+
+values((select ID from Service where Name = @docname and Provtime = @provtime), (select ID from Servicestatus where Name = @ssname and Exptime = @sstime)) 
+
+declare @i int 
+
+set @i = @posnumber1 
+
+while (@i < @posnumber2 + 1) 
+
+begin 
+
+if exists (select*from EmployeesPositions where ID2 = @i) 
+
+begin 
+
+declare @f int 
+
+set @f = 1 
+
+while (@f < (select MAX(ID) from Employees) + 1) 
+
+begin 
+
+if exists(select*from EmployeesPositions where ID1 = @f and ID2 = @i) 
+
+begin 
+
+insert into EmployeesServices(ID1, ID2) 
+
+values(@f, (select ID from Service where Name = @docname and Provtime = @provtime)) 
+
+end 
+
+set @f = @f + 1 
+
+end 
+
+end 
+
+set @i = @i + 1 
+
+end 
+
+end 
+
+ 
+
+/*  банкротство человека: к его положению добавляется слово банкрот, 
+
+он переносится из своего дома в мнимую строку "изъято", 
+
+его дети отправляются в детдом, 
+
+удаляются все налоги,  
+
+добавляется специальный налог для банкротов, размер которого уточнится позднее, 
+
+удаляются все го записи,  
+
+создается и приписывется к нему новая запись с определенным журналом и сотрудником 
+
+ 5.2 баллов */ 
+
+create procedure bankruptcy 
+
+@id int, @surname nvarchar(50) 
+
+as 
+
+begin 
+
+update Clients 
+
+set Position = (select Position from Clients where ID = @id and Surname = @surname) + ' bankrupt', 
+
+IDH = (select ID from House where Sqr = 0 and Place = 'seized') 
+
+where (ID = @id and Surname = @surname) 
+
+update Clients 
+
+set IDH = (select ID from House where Sqr = 1500 and Place = 'Detdom') 
+
+where ID = (select Child from Relations where ID1 = @id or ID2 = @id) 
+
+delete from ClientsTax 
+
+where ID1 = @id 
+
+insert into ClientsTax(ID1, ID2) 
+
+values(@id, (select ID from Tax where Payment = 0 and Name = 'Bankrupt')) 
+
+delete from RegistrationsClients 
+
+where ID2 = @id 
+
+insert into Registrations(Meetdate, Room, ID1, ID3) 
+
+values(GETDATE(), (select MIN(ID) from Journal), 1, (select MIN(ID) from Employees where Position = 'cashier' or Position = 'director')) 
+
+insert into RegistrationsClients(ID1, ID2) 
+
+values((select MAX(ID) from Registrations), @id) 
+
+delete from ServiceClients 
+
+where ID2 = @id 
+
+end 
+
+ 
+
+ 
+
+exec bankruptcy @surname = 'Putin', @id = 1 
+
+ 
+
+/* Восстановление после банкротства 
+
+человеку приписывается в статус нужная фраза, 
+
+специальный нулевой налог удаляется, 
+
+добавляется нужный налог, 
+
+он возвращается в указанный дом, 
+
+его дети возвращаются в этот дом из детдома, 
+
+заводится новая запись в нужном журнале, на нужного сотрудника, 
+
+в нужном кабинете, 
+
+приписывается к этому человеку  4.1 балла */ 
+
+ 
+
+create procedure recovering 
+
+@surname nvarchar(50), @id int, @idhouse int, @idtax int 
+
+as 
+
+begin 
+
+update Clients 
+
+set Position = Position + ' status was withdrawn', 
+
+IDH = @idhouse 
+
+where ID = @id 
+
+delete from ClientsTax 
+
+where ID1 = @id and ID2 = (select ID from Tax where Name = 'Bankrupt' and Payment = 0) 
+
+insert into ClientsTax(ID1, ID2) 
+
+values(@id, @idtax) 
+
+update Clients 
+
+set IDH = @idhouse 
+
+where ID = (select Child from Relations where ID1 = @id or ID2 = @id) 
+
+delete from RegistrationsClients 
+
+where ID2 = @id 
+
+insert into Registrations(Meetdate, Room, ID1, ID3) 
+
+values(GETDATE(), 2, (select MIN(ID) from Journal where ID <> 1), (select MIN(ID) from Employees where ID <> 1)) 
+
+insert into RegistrationsClients(ID1, ID2) 
+
+values((select MAX(ID) from Registrations where Room = 2 and ID1 = (select MIN(ID) from Journal where ID <> 1)), @id) 
+
+end 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+select * from EmployeesPositions 
+
+select * from Employees 
+
+select * from Positions 
+
+select * from Journal 
+
+select * from Registrations 
+
+select * from RegistrationsClients 
+
+select * from EmployeesServices 
+
+select * from Documents 
+
+select * from Clients 
+
+select * from Docstatus 
+
+select * from Service 
+
+select * from Servicestatus 
+
+select * from Service_Servicestatus 
+
+select * from House 
+
+select * from Relations 
+
+select * from Tax 
+
+ 
+
+ 
+
+ 
+
+ 
+
+drop role employee 
+
+drop user Philippov 
+
+create role employee 
+
+create login vanka with password = 'avanes' 
+
+create user [Philippov] for login vanka  
+
+alter role employee add member [Philippov] 
+
+grant select on Registrations to Philippov 
+
+deny select on Registrations(NumOfClients) to Philippov 
+
+grant insert on Registrations to Philippov 
+
+grant insert on Journal to Philippov 
+
+grant select on House to Philippov 
+
+deny select on House(Place) to Philippov 
+
+ 
+
+ 
+
+create role director 
+
+create login [Dirik] with password = 'imgod' 
+
+create user [Dirik] for login [Dirik] 
+
+alter role director add member [Dirik] 
+
+grant insert on Employees to Dirik 
+
+grant insert on Positions to Dirik 
+
+grant insert on EmployeesPositions to Dirik 
+
+grant select on House to Dirik 
+
+deny select on House(Place) to Dirik 
+
+grant execute on newstaff to Dirik 
+
+grant execute on deletestaff to Dirik 
+
+ 
+
+ 
+
+create role receptionist 
+
+create login [Lydochka] with password = 'teacoffeedance' 
+
+create user [Lydochka] for login [Lydochka] 
+
+alter role receptionist add member [Lydochka] 
+
+grant insert on RegistrationsClients to Lydochka 
+
+grant update on RegistrationsClients to Lydochka 
+
+ 
+
+create role test 
+
+create login hello with password = 'goodbye' 
+
+create user Repkov for login hello 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
