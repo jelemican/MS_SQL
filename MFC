@@ -10,7 +10,7 @@ CREATE TABLE Employees(
 
   Birthday date, 
 
-  Position nvarchar(50)то 
+  Position nvarchar(50)
 
 ) 
 
